@@ -1,9 +1,7 @@
 new Alba({
 	el: '#app',
 	mounted: (el) => {
-		setInterval(() => {
-			el.loadList(el)
-		}, 100)
+		el.loadList(el)
 	},
 	data: {
 		proverbs: [],
@@ -16,6 +14,7 @@ new Alba({
 				await fetch(`service.php?action=add&value=${el.data.newValue}`, {
 					credentials: 'same-origin',
 				})
+				el.loadList(el)
 			}
 		},
 		async loadList (el) {
@@ -29,3 +28,4 @@ new Alba({
 		}
 	}
 })
+	
