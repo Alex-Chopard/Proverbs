@@ -14,6 +14,7 @@ class Alba {
     })
     
     this.afors = []
+    this.focus = null
 
     this.buildDOM()
     this.mounted(this)
@@ -59,8 +60,11 @@ class Alba {
         }
 
         model.addEventListener('keyup', (e) => {
+          this.focus = `#${e.target.id}`
           trueAttrubute[attribute] = e.target.value
         })
+
+        model.removeAttribute('a-model')
       })
     }
   }
@@ -97,6 +101,10 @@ class Alba {
     })
 
     this.manageAModel(document.querySelector(this.el))
+
+    if (this.focus) {
+      document.querySelector(this.focus).focus()
+    }
   }
 
   manageAFor (main) {
@@ -139,7 +147,7 @@ class Alba {
       const attribute = this.data[attributeName]
       if (typeof attribute === 'object') {
         const regex = /\{\{(.*?)\.(.*?)\}\}/gim
-        console.log('attributes', attribute)
+
         Object.keys(attribute).map(key => {
           const child = parent.cloneNode(true)
           const variablesToReplace = []
@@ -174,12 +182,14 @@ class Alba {
           })
 
           const aModels = child.querySelectorAll('[a-model]')
-          console.log('aModels', aModels)
+
           if (aModels) {
             aModels.forEach(model => {
               const attr = model.getAttribute('a-model')
               if (attr) {
                 model.setAttribute('a-model', attr.replace(childAttribute, `${attributeName}.${key}`))
+                const id = 
+                model.id = `id-a-model-${model.getAttribute('a-model').replace(/\./gm, '-')}`
               }
             })
           }
