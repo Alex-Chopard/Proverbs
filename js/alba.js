@@ -60,7 +60,12 @@ class Alba {
         }
 
         model.addEventListener('keyup', (e) => {
-          this.focus = `#${e.target.id}`
+          const id = e.target.id
+          if (id.length > 0) {
+            this.focus = `#${e.target.id}`
+          } else {
+            this.focus = null
+          }
           trueAttrubute[attribute] = e.target.value
         })
 
