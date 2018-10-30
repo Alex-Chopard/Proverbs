@@ -8,12 +8,21 @@ new Alba({
 		newValue: ''
 	},
 	methods:{
+		async deleteProverb (el, id) {
+			console.log('dellllllllllllllllllllet', el, id)
+			if (id) {
+				await fetch(`service.php?action=delete&id=${id}`, {
+					credentials: 'same-origin',
+				})
+				el.loadList(el)
+			}
+		},
 		async addProverb (el) {
-			console.log(el.data)
 			if (el.data.newValue && el.data.newValue.length > 0) {
 				await fetch(`service.php?action=add&value=${el.data.newValue}`, {
 					credentials: 'same-origin',
 				})
+				el.data.newValue = ''
 				el.loadList(el)
 			}
 		},
@@ -28,4 +37,3 @@ new Alba({
 		}
 	}
 })
-	

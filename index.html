@@ -11,7 +11,8 @@
 		<button type="button" a-on-click="addProverb">Add</button>
 
 		<div a-for="proverb in proverbs">
-			<p>{{ proverb.value }}</p>
+			<p>{{ proverb.id }} - {{ proverb.value }}</p>
+			<div a-on-click="deleteProverb(proverb.id)">X</div>
 			<input type="text" a-model="proverb.value" >
 		</div>
 	</main>

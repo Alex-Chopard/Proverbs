@@ -48,8 +48,9 @@ class Alba {
         
         attribute.map((attr, key) => {
           if (trueAttrubute.hasOwnProperty(attr)) {
-            if (key < attribute.length - 1)
-            trueAttrubute = trueAttrubute[attr]
+            if (key < attribute.length - 1) {
+              trueAttrubute = trueAttrubute[attr]
+            }
           }
         })
 
@@ -61,11 +62,8 @@ class Alba {
 
         model.addEventListener('keyup', (e) => {
           const id = e.target.id
-          if (id.length > 0) {
-            this.focus = `#${e.target.id}`
-          } else {
-            this.focus = null
-          }
+          this.focus = id.length > 0 ? `#${id}` : null
+
           trueAttrubute[attribute] = e.target.value
         })
 
@@ -79,11 +77,27 @@ class Alba {
 
     if (clicks) {
       clicks.forEach(click => {
-        const methodsName = click.getAttribute('a-on-click')
+        let attribute = click.getAttribute('a-on-click')
+        const methodsName = attribute.split('(')[0]
+
+        attribute = attribute.replace(methodsName, '').replace(/\(|\)/gm, '').split('.')
+
+        let trueAttribute = this.data
+        attribute.map((attr, key) => {
+          if (trueAttribute.hasOwnProperty(attr)) {
+            if (key < attribute.length - 1) {
+              trueAttribute = trueAttribute[attr]
+            }
+          }
+        })
+
+        attribute = attribute[attribute.length - 1]
 
         if (methodsName && this[methodsName]) {
-          click.addEventListener('click', () => { this[methodsName](this) });
+          click.addEventListener('click', () => { this[methodsName](this, trueAttribute[attribute]) });
         }
+
+        click.removeAttribute('a-on-click')
       })
     }
   }
@@ -105,7 +119,9 @@ class Alba {
       }
     })
 
-    this.manageAModel(document.querySelector(this.el))
+    const main = document.querySelector(this.el)
+    this.manageAModel(main)
+    this.manageClick(main)
 
     if (this.focus) {
       document.querySelector(this.focus).focus()
@@ -169,7 +185,7 @@ class Alba {
                 let value = attribute[key]
   
                 trueVariable.map(val => {
-                  if (val !== childAttribute && value[val]) {
+                  if (val !== childAttribute && value.hasOwnProperty(val)) {
                     value = value[val]
                   }
                 })
@@ -191,10 +207,22 @@ class Alba {
           if (aModels) {
             aModels.forEach(model => {
               const attr = model.getAttribute('a-model')
+
               if (attr) {
                 model.setAttribute('a-model', attr.replace(childAttribute, `${attributeName}.${key}`))
-                const id = 
                 model.id = `id-a-model-${model.getAttribute('a-model').replace(/\./gm, '-')}`
+              }
+            })
+          }
+
+          const aClick = child.querySelectorAll('[a-on-click]')
+
+          if (aClick) {
+            aClick.forEach(click => {
+              const attr = click.getAttribute('a-on-click')
+
+              if (attr) {
+                click.setAttribute('a-on-click', attr.replace(childAttribute, `${attributeName}.${key}`))
               }
             })
           }
