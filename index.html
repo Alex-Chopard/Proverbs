@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>Proverbes</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
-<body>
-	<main id="app">
-		<input type="text" a-model="newValue"/>
-		<button type="button" a-on-click="addProverb">Add</button>
+	<head>
+		<meta charset="utf-8">
+		<title>Proverbes</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	<body>
+		<main id="app">
+			<input type="text" a-model="newValue"/>
+			<button type="button" a-on-click="addProverb">Add</button>
 
-		<div a-for="proverb in proverbs">
-			<p>{{ proverb.id }} - {{ proverb.value }}</p>
-			<div a-on-click="deleteProverb(proverb.id)">X</div>
-			<input type="text" a-model="proverb.value" >
-		</div>
-	</main>
-	<script src="js/alba.js"></script>
-	<script src="js/main.js"></script>
-</body>
+			<div a-for="proverb in proverbs">
+				<p>{{ proverb.id }} - {{ proverb.value }}</p>
+				<div a-on-click="deleteProverb(proverb.id)">X</div>
+				<input type="text" a-model="proverb.value" >
+			</div>
+		</main>
+		<script src="js/alba.js"></script>
+		<script src="js/main.js"></script>
+	</body>
 </html>
